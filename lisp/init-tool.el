@@ -1,9 +1,9 @@
 ;;; init-tool.el ---                                 -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2019  
+;; Copyright (C) 2019
 
 ;; Author:  <peter.linyi@DESKTOP-PMTGUNT>
-;; Keywords: 
+;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 ;;; Commentary:
 
-;; 
+;;
 
 ;;; Code:
 
@@ -84,7 +84,9 @@
     (symbols-outline-show)))
 
 (use-package symbols-outline
-  :ensure t
+  :ensure nil
+  :quelpa (symbols-outline :repo "liushihao456/symbols-outline.el"
+			   :fetcher github)
   :init
   (setq symbols-outline-window-position 'right
         symbols-outline-collapse-functions-on-startup t
@@ -127,19 +129,21 @@
   :diminish editorconfig-mode
   :hook (after-init . editorconfig-mode))
 
-;; ;; https://wakatime.com/emacs
-;; (use-package wakatime-mode
-;;   :ensure t
-;;   :diminish 'wakatime-mode
-;;   :preface
-;;   (defun wakatime-dashboard ()
-;;     (interactive)
-;;     (browse-url "https://wakatime.com/dashboard"))
-;;   :hook
-;;   (after-init . global-wakatime-mode)
-;;   :config
-;;   ;; use `pip install wakatime' and `which wakatime' to get cli path
-;;   (setq wakatime-cli-path "~/.wakatime/wakatime-cli"))
+;; https://wakatime.com/emacs
+(use-package wakatime-mode
+  :ensure nil
+  :quelpa (wakatime-mode :repo "wakatime/wakatime-mode"
+			 :fetcher github)
+  :diminish 'wakatime-mode
+  :preface
+  (defun wakatime-dashboard ()
+    (interactive)
+    (browse-url "https://wakatime.com/dashboard"))
+  :hook
+  (after-init . global-wakatime-mode)
+  :config
+  ;; use `pip install wakatime' and `which wakatime' to get cli path
+  (setq wakatime-cli-path "~/.wakatime/wakatime-cli"))
 
 (use-package rg
   :ensure t

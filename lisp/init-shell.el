@@ -48,7 +48,9 @@
 
 
 (use-package vterm
-  :ensure t
+  :ensure nil
+  :quelpa (vterm :repo "akermu/emacs-libvterm"
+		 :fetcher github)
   :preface
   (defun vterm--kill-vterm-buffer-and-window (process event)
     "Kill buffer and window on vterm process termination."
