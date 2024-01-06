@@ -29,15 +29,16 @@
 (use-package vertico
   :ensure nil
   :quelpa (vertico :repo "minad/vertico"
-		   :fetcher github)
+                   :fetcher github
+                   :files ("*.el" "extensions/*.el" "extensions/*.elc" "extensions/**/*.el" "extensions/**/*.elc"))
   :hook (after-init . vertico-mode)
   :config
   (setq vertico-resize t
         vertico-count 17
         vertico-cycle t)
-  ;; (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
-  ;; (add-hook 'minibuffer-setup-hook #'vertico-repeat-save)
-  ;; (define-key vertico-map [backspace] #'vertico-directory-delete-char)
+  (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
+  (add-hook 'minibuffer-setup-hook #'vertico-repeat-save)
+  (define-key vertico-map [backspace] #'vertico-directory-delete-char)
   )
 
 (use-package nerd-icons-completion

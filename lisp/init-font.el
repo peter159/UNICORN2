@@ -1,9 +1,9 @@
 ;;; init-font.el ---                                 -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2019  
+;; Copyright (C) 2019
 
 ;; Author:  <peter.linyi@DESKTOP-PMTGUNT>
-;; Keywords: 
+;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 ;;; Commentary:
 
-;; 
+;;
 
 ;;; Code:
 
@@ -37,8 +37,10 @@
 (dolist (charset '(kana han cjk-misc bopomofo))
   (if (display-graphic-p)		;to avoid error 'fontset tty' in linux shell environment
       (set-fontset-font (frame-parameter nil 'font) charset
-			;; (font-spec :family "Microsoft Yahei" :size 12))
-			(font-spec :family "等距更纱黑体 SC" :size unicorn-font-size)))
+			;; (font-spec :family "Microsoft Yahei" :size unicorn-font-size)))
+			(font-spec :family "等距更纱黑体 SC" :size (+ unicorn-font-size 10))))
+  ;; (setq face-font-rescale-alist '(("Microsoft Yahei" . unicorn-font-size) ("WenQuanYi Zen Hei" . unicorn-font-size)))
+  ;; (setq face-font-rescale-alist '(("等距更纱黑体 SC" . (+ unicorn-font-size 10))))
   )
 
 ;; (use-package fontify-face :ensure t)
@@ -51,7 +53,7 @@
 
 ;; add rime support
 (use-package rime
-  :ensure t
+  :ensure nil
   :quelpa
   (rime :fetcher github
         :repo "DogLooksGood/emacs-rime"

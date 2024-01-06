@@ -84,9 +84,11 @@
     (symbols-outline-show)))
 
 (use-package symbols-outline
-  :ensure nil
-  :quelpa (symbols-outline :repo "liushihao456/symbols-outline.el"
-			   :fetcher github)
+  :ensure t
+  ;; FIXME icons 目錄結構無法保留帶改進
+  ;; :quelpa (symbols-outline :repo "liushihao456/symbols-outline.el"
+  ;;                          :fetcher github
+  ;;                          :files ("*.el" "icons/*"))
   :init
   (setq symbols-outline-window-position 'right
         symbols-outline-collapse-functions-on-startup t

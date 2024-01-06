@@ -32,7 +32,7 @@
 (use-package lsp-mode
   :ensure t
   ;; :quelpa (lsp-mode:repo "emacs-lsp/lsp-mode"
-  ;; 		   :fetcher github)
+  ;; 			 :fetcher github)
   :diminish
   :defines (lsp-clients-python-library-directories
             lsp-rust-server)
