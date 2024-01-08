@@ -1,0 +1,3 @@
+recursive-include src/deeptrainer/ *.so
+recursive-include src/deeptrainer/* *.so
+recursive-include src/deeptrainer/docs/ *
