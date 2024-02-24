@@ -116,7 +116,8 @@ as the pyenv version then also return nil. This works around https://github.com/
   "setup config env for project root"
   (interactive)
   (shell-command "mkdir -p src")
-  (shell-command "cp ~/.emacs.d/config_snippets/python/cythonize_package.py ./src/")
+  (shell-command "mkdir -p csrc")
+  (shell-command "cp ~/.emacs.d/config_snippets/python/cythonize_package.py ./csrc/")
   (shell-command "cp ~/.emacs.d/config_snippets/python/LICENSE .")
   (shell-command "cp ~/.emacs.d/config_snippets/python/pyproject.toml .")
   (shell-command "cp ~/.emacs.d/config_snippets/python/MANIFEST.in .")
