@@ -143,6 +143,18 @@
 	   ;; completion-in-region-mode
 	   flycheck-error-list-mode) . hide-mode-line-mode)))
 
+(use-package transwin
+  :ensure t
+  :bind
+  ("M-+" . transwin-inc)
+  ("M-_" . transwin-dec)
+  ("M-)" . transwin-toggle)
+  :init
+  (setq transwin-delta-alpha 5
+        transwin-parameter-alpha 'alpha-background)
+  :config
+  (transwin-ask 80))
+
 ;; ;; https://github.com/cyrus-and/zoom, golden-ratio
 ;; (use-package zoom
 ;;   :ensure t

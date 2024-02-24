@@ -48,7 +48,7 @@
             "~/software/emacs30_treesitter/src"  ; 指定的路径，当 shell 命令返回为空时使用
           (file-name-directory shell-output))))
 
-(setq delete-by-moving-to-trash nil)	; Deleting files go to OS's trash folder
+(setq delete-by-moving-to-trash t)	; Deleting files go to OS's trash folder
 (setq make-backup-files nil)		; Forbide to make backup files
 (setq auto-save-default nil)		; Disable auto save
 (setq create-lockfiles nil)		; Disable lock files .#filename

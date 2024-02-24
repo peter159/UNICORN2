@@ -48,7 +48,7 @@
 
 
 (use-package vterm
-  :ensure nil
+  :ensure t
   :quelpa (vterm :repo "akermu/emacs-libvterm"
 		 :fetcher github)
   :preface
