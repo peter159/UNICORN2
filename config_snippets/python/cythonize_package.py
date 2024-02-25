@@ -11,9 +11,9 @@ from Cython.Build import cythonize
 import shutil
 
 # 需要编译的项目地址
-resource_directory = r"./AINLP_test"
+resource_directory = r"../src/CNSES/"
 # 编译后存放so/pyd文件的项目地址
-build_directory = r"./deeptrainer"
+build_directory = r"./CNSES"
 # 不编译的文件，例如程序入口
 exclude_build = ["__init__.py", "main.py"]
 # 不需要复制的文件，例如缓存
@@ -95,6 +95,12 @@ def build(extensions):
         )
 
 
+def write_list_to_file(lst, filename):
+    with open(filename, "w") as file:
+        for item in lst:
+            file.write(str(item) + "\n")
+
+
 if __name__ == "__main__":
     assert os.path.abspath(resource_directory) != os.path.abspath(
         build_directory
@@ -102,5 +108,9 @@ if __name__ == "__main__":
     copy_project()  # 加载所有可以编译的资源文件
     load_project_resource(build_directory, extensions)
     build(extensions)  # 开始编译
+    write_list_to_file(
+        extensions,
+        "./module_extensions.txt",
+    )
     shutil.rmtree(temp_directory)  # 删除编译的文件夹
     remove_resource(build_directory)  # 删除py文件和pyx文件
