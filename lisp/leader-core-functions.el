@@ -118,7 +118,7 @@
     (if (fboundp 'fancy-widen)
         (fancy-widen)))
   (revert-buffer t t))
-(bind-key "<f5>" #'unicorn/revert-current-buffer)
+;; (bind-key "<f5>" #'unicorn/revert-current-buffer) ;leave it shortcut for dape
 (if (eq system-type 'darwin)
     (bind-key "s-r" #'unicorn/revert-current-buffer))
 
