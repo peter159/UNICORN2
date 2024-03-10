@@ -185,7 +185,7 @@
   "eb" 'flycheck-buffer
   "ec" 'flycheck-clear
   "eh" 'flycheck-describe-checker
-  "el" 'flymake-show-buffer-diagnostics	;;'flycheck-list-errors
+  "el" 'consult-flymake		;;'flycheck-list-errors
   "en" 'flymake-goto-next-error		;;'flycheck-next-error
   "ep" 'flymake-goto-prev-error		;;'flycheck-previous-error
   "es" 'flycheck-select-checker
