@@ -271,7 +271,7 @@ Pass arg to ‘shell’."
   "Edit the `dotfile', in the current window."
   (interactive)
   (find-file "~/.emacs.d/init.el"))
-  ;; (find-file-existing (concat user-emacs-directory "init.el")))
+;; (find-file-existing (concat user-emacs-directory "init.el")))
 
 (defun unicorn/find-custom-file ()
   "Edit the `dotfile', in the current window."
@@ -322,7 +322,9 @@ current window."
   "Toggle `symbols-outline-mode' or `imenu-list-mode' based on whether `lsp-mode' or `symbols-outline-mode' is active."
   (interactive)
   ;; ;FIXME: fix for ess-r-mode with symbols-outline-mode
-  (if (or (and (bound-and-true-p lsp-mode) (not (eq major-mode 'ess-r-mode))) (get-buffer-window "*Outline*" t))
+  (if (or (and (bound-and-true-p lsp-mode) (not (eq major-mode 'ess-r-mode)))
+          (and (bound-and-true-p eglot--managed-mode) (not (eq major-mode 'ess-r-mode)))
+          (get-buffer-window "*Outline*" t))
       (symbols-outline-smart-toggle)
     (imenu-list-smart-toggle)))
 

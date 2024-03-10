@@ -169,6 +169,28 @@
 (use-package restart-emacs :ensure t)
 (use-package daemons :ensure t)		; system services/daemons
 
+(use-package apheleia
+  :ensure t
+  :bind ("C-c f" . apheleia-format-buffer)
+  :hook (emacs-startup . apheleia-global-mode)
+  ;; :config
+  ;; (setf (alist-get 'python-ts-mode apheleia-mode-alist) '(isort black))
+  )
+
+(use-package format-all
+  :ensure t
+  :commands format-all-mode
+  :hook
+  ;; (lsp-mode . format-all-mode)
+  ;; (gfm-mode . format-all-mode)
+  (prog-mode . format-all-mode)
+  ;; (format-all-mode . format-all-ensure-formatter)
+  :config
+  (setq-default format-all-formatters '(("C"     (astyle "--mode=c"))
+                                        ("Shell" (shfmt "-i" "4" "-ci"))
+					))
+  (global-set-key (kbd "M-f") 'format-all-buffer))
+
 (provide 'init-tool)
 (message "init-tool loaded in '%.2f' seconds" (get-time-diff time-marked))
 ;;; init-tool.el ends here

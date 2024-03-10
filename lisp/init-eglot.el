@@ -50,25 +50,70 @@
   ((ess-r-mode) . eglot-ensure)
   )
 
-(use-package format-all
+(use-package pretty-hydra
   :ensure t
-  :commands format-all-mode
-  :hook
-  ;; (lsp-mode . format-all-mode)
-  ;; (gfm-mode . format-all-mode)
-  (prog-mode . format-all-mode)
-  ;; (format-all-mode . format-all-ensure-formatter)
-  :config
-  (setq-default format-all-formatters '(("C"     (astyle "--mode=c"))
-                                        ("Shell" (shfmt "-i" "4" "-ci"))
-					))
-  (global-set-key (kbd "M-f") 'format-all-buffer))
+  :init
+  (require 'pretty-hydra)
+  (cl-defun pretty-hydra-title (title &optional icon-type icon-name
+                                      &key face height v-adjust)
+    "Add an icon in the hydra title."
+    (let ((face (or face `(:inherit highlight :reverse-video t)))
+          (height (or height 1.2))
+          (v-adjust (or v-adjust 0.0)))
+      (concat
+       (when (and (icons-displayable-p) icon-type icon-name)
+         (let ((f (intern (format "nerd-icons-%s" icon-type))))
+           (when (fboundp f)
+             (concat
+              (apply f (list icon-name :face face :height height :v-adjust v-adjust))
+              " "))))
+       (propertize title 'face face)))))
 
-;; optional if you want which-key integration
-(use-package which-key
+(use-package dape
   :ensure t
+  :bind (("<f5>" . dape)
+         ("M-<f5>" . dape-hydra/body))
+  :custom (dape-buffer-window-arrangment 'right)
+  :pretty-hydra
+  ((:title (pretty-hydra-title "Debug" 'codicon "nf-cod-debug")
+	   :color pink :quit-key ("q" "C-g"))
+   ("Stepping"
+    (("n" dape-next "next")
+     ("s" dape-step-in "step in")
+     ("o" dape-step-out "step out")
+     ("c" dape-continue "continue")
+     ("p" dape-pause "pause")
+     ("k" dape-kill "kill")
+     ("r" dape-restart "restart")
+     ("D" dape-disconnect-quit "disconnect"))
+    "Switch"
+    (("m" dape-read-memory "memory")
+     ("t" dape-select-thread "thread")
+     ("w" dape-watch-dwim "watch")
+     ("S" dape-select-stack "stack")
+     ("i" dape-info "info")
+     ("R" dape-repl "repl"))
+    "Breakpoints"
+    (("b" dape-breakpoint-toggle "toggle")
+     ("l" dape-breakpoint-log "log")
+     ("e" dape-breakpoint-expression "expression")
+     ("B" dape-breakpoint-remove-all "clear"))
+    "Debug"
+    (("d" dape "dape")
+     ("Q" dape-quit "quit" :exit t))))
+  :init
+  (setq dape-cwd-fn 'projectile-project-root)
   :config
-  (which-key-mode))
+  (setq dape-buffer-window-arrangement 'right)
+  (plist-put (alist-get 'debugpy dape-configs) 'command "python3")
+
+  ;; ;; Save buffers on startup, useful for interpreted languages
+  ;; (add-hook 'dape-on-start-hooks
+  ;;           (defun dape--save-on-start ()
+  ;;             (save-some-buffers t t)))
+  ;; ;; Display hydra on startup
+  ;; (add-hook 'dape-on-start-hooks #'dape-hydra/body)
+  )
 
 (provide 'init-eglot)
 (message "init-eglot loaded in '%.2f' seconds ..." (get-time-diff time-marked))

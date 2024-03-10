@@ -19,7 +19,7 @@ Note: strongly suggest for usage in a purly Linux environment, or in windows WSL
 
 - install prebuild [emacs](https://www.gnu.org/software/emacs/) from snap, or build from [source](https://www.gnu.org/software/emacs/manual/html_node/efaq/Installing-Emacs.html), emacs 29.0 + suggested, proxy (SSR or Clash) suggested if you are in china
 
-- OR build and compile from source, tested in windows 11 WSL[ubuntu]
+- OR build and compile from source, tested in windows 11 WSL[ubuntu recommended]
 
 ```shell
 # close ssr agent first!!!, recommend this way, installed pre-compiled

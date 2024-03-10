@@ -48,14 +48,12 @@
       (forward-line -1)))))
 
 (defun move-text-down (arg)
-  "Move region (transient-mark-mode active) or current line
-  arg lines down."
+  "Move region (transient-mark-mode active) or current line ARG lines down."
   (interactive "*p")
   (move-text-internal arg))
 
 (defun move-text-up (arg)
-  "Move region (transient-mark-mode active) or current line
-  arg lines up."
+  "Move region (transient-mark-mode active) or current line ARG lines up."
   (interactive "*p")
   (move-text-internal (- arg)))
 
