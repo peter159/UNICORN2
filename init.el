@@ -88,7 +88,8 @@
 (require 'init-treemacs)
 
 (require 'init-program-basis)
-(require 'init-flycheck)
+;; (require 'init-flycheck)
+(require 'init-flymake)
 (require 'init-treesit)
 (require 'init-elisp)
 ;; (require 'init-lsp)

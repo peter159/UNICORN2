@@ -1,9 +1,9 @@
 ;;; init-flycheck.el ---                             -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2019  
+;; Copyright (C) 2019
 
 ;; Author:  <peter.linyi@DESKTOP-PMTGUNT>
-;; Keywords: 
+;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 ;;; Commentary:
 
-;; 
+;;
 
 ;;; Code:
 
@@ -40,7 +40,8 @@
   (setq flycheck-flake8-maximum-line-length 99)
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   ;; Only check while saving and opening files
-  (setq flycheck-check-syntax-automatically '(save mode-enabled)))
+  (setq flycheck-check-syntax-automatically '(save mode-enable))
+  )
 
 (provide 'init-flycheck)
 (message "init-flycheck loaded in '%.2f' seconds ..." (get-time-diff time-marked))
