@@ -62,7 +62,11 @@
    :fetcher github))
 
 (use-package doom-modeline
-  :ensure t
+  :ensure nil
+  :quelpa
+  (doom-modeline
+   :repo "seagle0128/doom-modeline"
+   :fetcher github)
   :hook ((after-init . doom-modeline-mode)
 	 (doom-modeline-mode . setup-custom-doom-modeline))
   :custom-face
@@ -97,7 +101,7 @@
 	   'face (if (doom-modeline--active) 'doom-modeline-buffer-major-mode)))))
     (doom-modeline-def-modeline 'my-modeline-layout
       '(bar workspace-name window-number matches buffer-info remote-host buffer-position word-count parrot selection-info)
-      '(objed-state misc-info persp-name battery grip irc mu4e gnus github debug repl input-method time indent-info buffer-encoding process vcs checker))
+      '(objed-state misc-info persp-name battery grip irc mu4e gnus github debug repl input-method time indent-info buffer-encoding process vcs))
     (defun setup-custom-doom-modeline ()
       (doom-modeline-set-modeline 'my-modeline-layout 'default))))
 
