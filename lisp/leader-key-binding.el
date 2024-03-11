@@ -320,7 +320,7 @@
     "mbr" #'lsp-restart-workspace
     "mbs" #'lsp-shutdown-workspace
     ;; refactor
-    "mrr" #'lsp-rename
+    "mrr" #'eglot-rename		;#'lsp-rename
     ;; toggles
     "mTd" #'lsp-ui-doc-mode
     "mTs" #'lsp-ui-sideline-mode

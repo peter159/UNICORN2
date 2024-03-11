@@ -100,8 +100,8 @@
   (evil-define-key 'normal symbols-outline-mode-map
     (kbd "r") 'symbols-outline-refresh
     (kbd "q") 'quit-window
-    (kbd "n") 'symbols-outline-next
-    (kbd "p") 'symbols-outline-prev
+    (kbd "j") 'symbols-outline-next
+    (kbd "k") 'symbols-outline-prev
     (kbd "d") 'symbols-outline-next-same-level
     (kbd "b") 'symbols-outline-prev-same-level
     (kbd "u") 'symbols-outline-move-depth-up

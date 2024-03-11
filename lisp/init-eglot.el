@@ -26,6 +26,19 @@
 
 (mark-time-here)
 
+;; download from https://github.com/blahgeek/emacs-lsp-booster and install emacs-lsp-booster binary to `/usr/bin/`
+(use-package eglot-booster
+  :ensure nil
+  :init
+  (setq eglot-booster-no-remote-boost t)
+  :after eglot
+  :quelpa
+  (eglot-booster
+   :repo "jdtsmith/eglot-booster"
+   :fetcher github
+   :files ("*.el"))
+  :config (eglot-booster-mode))
+
 (use-package eglot
   :ensure t
   :init
@@ -46,7 +59,9 @@
 				((yaml-ts-mode yaml-mode) . ("yaml-language-server" "--stdio"))
 				((dockerfile-mode dockerfile-ts-mode) . ("docker-langserver" "--stdio"))))
   :hook
-  ((python-mode python-ts-mode) . eglot-ensure)
+  ((python-mode python-ts-mode) . (lambda()
+				    (eglot-booster-mode t)
+				    (eglot-ensure)))
   ((ess-r-mode) . eglot-ensure)
   )
 
