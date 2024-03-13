@@ -116,8 +116,19 @@
 		       )
 		      #'cape-file
 		      #'cape-dabbrev)))
+  (defun unicorn/eglot-capf-setup ()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(orderless)) ;; Configure orderless
+    (setq-local completion-at-point-functions
+    		(list
+                 #'eglot-completion-at-point
+                 #'cape-file
+                 #'yasnippet-capf
+    		 #'cape-dabbrev
+                 )))
   :hook
   (lsp-completion-mode . unicorn/set-lsp-capfs)
+  (eglot--managed-mode . unicorn/eglot-capf-setup)
   :init
   (setq cape-dabbrev-min-length 2
 	cape-dabbrev-check-other-buffers nil)

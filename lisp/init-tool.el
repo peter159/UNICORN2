@@ -134,8 +134,10 @@
 ;; https://wakatime.com/emacs
 (use-package wakatime-mode
   :ensure nil
-  :quelpa (wakatime-mode :repo "wakatime/wakatime-mode"
-			 :fetcher github)
+  :quelpa
+  (wakatime-mode :repo "wakatime/wakatime-mode"
+		 :fetcher github
+		 :upgrade t)
   :diminish 'wakatime-mode
   :preface
   (defun wakatime-dashboard ()
@@ -145,7 +147,8 @@
   (after-init . global-wakatime-mode)
   :config
   ;; use `pip install wakatime' and `which wakatime' to get cli path
-  (setq wakatime-cli-path "~/.wakatime/wakatime-cli"))
+  ;; (setq wakatime-cli-path "~/.wakatime/wakatime-cli")
+  )
 
 (use-package rg
   :ensure t
