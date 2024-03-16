@@ -67,25 +67,21 @@
    :fetcher github)
   :demand t
   :preface
-  (defun petmacs/setup-flymake-ruff ()
+  (defun unicorn/setup-flymake-ruff ()
     (setq-local lsp-diagnostics-provider :none)
     (flymake-ruff-load))
+  (defun unicorn/eglot-setup-flymake-ruff ()
+    (interactive)
+    (when (memq major-mode '(python-mode python-ts-mode))
+      (flymake-ruff-load)))
   :config
-  (pcase 'eglot
-    ('lsp-mode
-     (add-hook 'python-mode-hook #'petmacs/setup-flymake-ruff)
-     (add-hook 'python-ts-mode-hook #'petmacs/setup-flymake-ruff))
-    ('eglot
-     (defun petmacs/filter-eglot-diagnostics (diags)
-       "Drop Pyright 'variable not accessed' notes from DIAGS."
-       (list (seq-remove (lambda (d)
-			   (and (eq (flymake-diagnostic-type d) 'eglot-note)
-                                (s-starts-with? "Pyright:" (flymake-diagnostic-text d))
-                                (s-ends-with? "is not accessed" (flymake-diagnostic-text d))))
-                         (car diags))))
-     (advice-add 'eglot--report-to-flymake :filter-args #'petmacs/filter-eglot-diagnostics)
-     (add-hook 'python-mode-hook 'flymake-ruff-load)
-     (add-hook 'python-ts-mode-hook 'flymake-ruff-load))))
+  (add-hook 'eglot-managed-mode-hook 'unicorn/eglot-setup-flymake-ruff)
+  (defun my-filter-eglot-diagnostics (diags)
+    "Drop all Pyright diagnose from langserver"
+    (list (seq-remove (lambda (d)
+                        (string-match "Pyright" (flymake-diagnostic-text d)))
+                      (car diags))))
+  (advice-add 'eglot--report-to-flymake :filter-args #'my-filter-eglot-diagnostics))
 
 (provide 'init-flymake)
 (message "init-flymake loaded in '%.2f' seconds ..." (get-time-diff time-marked))
