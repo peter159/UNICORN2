@@ -46,7 +46,7 @@
 	eglot-autoshutdown t
 	eglot-connect-timeout 120
 	eglot-ignored-server-capabilities '(:inlayHintProvider)
-	eldoc-echo-area-use-multiline-p nil
+	eldoc-echo-area-use-multiline-p t
 	eglot-events-buffer-size 1
 	eglot-server-programs '(
 				((python-mode python-ts-mode) . ("pyright-langserver" "--stdio"))

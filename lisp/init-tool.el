@@ -132,6 +132,7 @@
   :hook (after-init . editorconfig-mode))
 
 ;; https://wakatime.com/emacs
+;; TODO custom modify: find `wakatime-call', change `"%s--entity %s --plugin \"%s/%s\" --time %.2f%s%s"' to `"'%s--entity %s --plugin \"%s/%s\" --time %.2f%s%s'"'
 (use-package wakatime-mode
   :ensure nil
   :quelpa
@@ -147,7 +148,7 @@
   (after-init . global-wakatime-mode)
   :config
   ;; use `pip install wakatime' and `which wakatime' to get cli path
-  ;; (setq wakatime-cli-path "~/.wakatime/wakatime-cli")
+  (setq wakatime-cli-path "~/.wakatime/wakatime-cli")
   )
 
 (use-package rg
@@ -177,7 +178,7 @@
   :bind ("C-c f" . apheleia-format-buffer)
   :hook (emacs-startup . apheleia-global-mode)
   :config
-  (setf (alist-get 'python-ts-mode apheleia-mode-alist) '(ruff))
+  (setf (alist-get 'python-ts-mode apheleia-mode-alist) '(yapf ruff)) ;先用yapf格式化，然後用ruff加工
   (setf (alist-get 'python-mode apheleia-mode-alist) '(isort ruff))
   )
 
