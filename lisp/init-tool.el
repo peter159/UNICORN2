@@ -180,6 +180,7 @@
   :config
   (setf (alist-get 'python-ts-mode apheleia-mode-alist) '(yapf ruff)) ;先用yapf格式化，然後用ruff加工
   (setf (alist-get 'python-mode apheleia-mode-alist) '(isort ruff))
+  (setf (alist-get 'c-ts-mode apheleia-mode-alist) '(clang-format))
   )
 
 (use-package format-all
@@ -195,6 +196,23 @@
                                         ("Shell" (shfmt "-i" "4" "-ci"))
 					))
   (global-set-key (kbd "M-f") 'format-all-buffer))
+
+(use-package quickrun
+  :commands (quickrun)
+  :init
+  (quickrun-add-command "c++/c1z"
+    '((:command . "g++")
+      (:exec . ("%c -std=c++1z %o -o %e %s"
+                "%e %a"))
+      (:remove . ("%e")))
+    :default "c++")
+  (quickrun-add-command "python"
+    '((:command . "python3"))
+    :default "python")
+  :config
+  (define-key quickrun--mode-map (kbd "C-c C-k") 'quickrun--kill-running-process)
+  )
+(global-set-key (kbd "<C-return>") 'quickrun)
 
 (provide 'init-tool)
 (message "init-tool loaded in '%.2f' seconds" (get-time-diff time-marked))

@@ -32,6 +32,15 @@
 
 (mark-time-here)
 
+(use-package cc-mode
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist
+	       `("\\.h\\'" . c++-mode))
+  :config
+  (require 'compile)
+  (add-to-list 'auto-mode-alist '("\.cu$" . c++-mode))
+  )
 
 (use-package smart-semicolon
   :ensure t

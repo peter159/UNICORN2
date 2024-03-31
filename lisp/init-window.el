@@ -54,18 +54,19 @@
 
 (use-package popwin
   :ensure t
-  ;; :hook (after-init . popwin-mode)
+  :hook (after-init . popwin-mode)
   :config
   (progn
-    ;; (require 'popwin)
-    ;; (popwin-mode 1)
+    (require 'popwin)
+    (popwin-mode 1)
     ;; don't use default value but manage it ourselves
     (setq popwin:special-display-config nil)
     ;; buffers that we manage
     (push '("*Help*"                 :dedicated t :position bottom :stick t :noselect t   :height 0.4) popwin:special-display-config)
     (push '("*Process List*"         :dedicated t :position bottom :stick t :noselect nil :height 0.4) popwin:special-display-config)
     (push '("*Proced*"               :dedicated t :position right  :stick t :noselect nil :width 0.5 ) popwin:special-display-config)
-    ;; (push '("*compilation*"          :dedicated t :position bottom :stick t :noselect t   :height 0.5) popwin:special-display-config)
+    (push '("*quickrun*"             :dedicated t :position right  :stick t :noselect nil :width 0.5 ) popwin:special-display-config)
+    (push '("*compilation*"          :dedicated t :position right  :stick t :noselect t   :width 0.5) popwin:special-display-config)
     (push '("*Shell Command Output*" :dedicated t :position bottom :stick t :noselect nil            ) popwin:special-display-config)
     (push '("*Async Shell Command*"  :dedicated t :position bottom :stick t :noselect nil            ) popwin:special-display-config)
     (push '(" *undo-tree*"           :dedicated t :position right  :stick t :noselect nil :width   60) popwin:special-display-config)
@@ -103,7 +104,12 @@
     "View compilation buffer."
     (interactive)
     (ignore-errors
-      (display-buffer"*compilation*")))
+      (display-buffer "*compilation*")))
+  (defun unicorn/shackle-popup-compilation-buffer ()
+    "View compilation buffer."
+    (interactive)
+    (ignore-errors
+      (display-buffer "*quickrun*")))
   :functions org-switch-to-buffer-other-window
   :commands shackle-display-buffer
   :hook (after-init . shackle-mode)
