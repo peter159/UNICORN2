@@ -32,25 +32,6 @@
   (prettify-utils :repo "Ilazki/prettify-utils.el"
 		  :fetcher github))
 
-(use-package electric-operator
-  :ensure t
-  :hook ((c-mode-common . electric-operator-mode)
-         (python-mode . electric-operator-mode)
-	 (go-mode . electric-operator-mode)
-	 ((ess-r-mode inferior-ess-r-mode-hook ess-r-package-mode) . electric-operator-mode)
-         (electric-operator-mode . (lambda ()
-                                     (electric-operator-add-rules-for-mode 'c++-mode
-                                                                           (cons "*" nil)
-                                                                           (cons "&" nil))
-                                     (electric-operator-add-rules-for-mode 'c-mode
-                                                                           (cons "*" nil))
-				     (electric-operator-add-rules-for-mode 'go-mode
-									   (cons ":=" " := "))
-				     (electric-operator-add-rules-for-mode 'ess-mode
-									   (cons "=" " = "))
-				     ))))
-
-
 (provide 'init-program-basis)
 (message "init-program-basis loaded in '%.2f' seconds ..." (get-time-diff time-marked))
 ;;; init-program-basis.el ends here

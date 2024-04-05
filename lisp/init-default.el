@@ -159,11 +159,6 @@
 ;; Make bindings that stick around
 (use-package hydra :ensure t)
 
-;; (use-package electric-spacing
-;;   :ensure t
-;;   :hook
-;;   (prog-mode . electric-spacing-mode))
-
 (use-package electric-operator
   :ensure t
   :hook
@@ -173,6 +168,17 @@
 					(cons "-" "-"))
   (electric-operator-add-rules-for-mode 'lisp-interaction-mode
 					(cons "-" "-"))
+  (electric-operator-add-rules-for-mode 'c++-ts-mode
+                                        (cons "*" nil)
+                                        (cons "<<" " << ")
+                                        (cons "=" " = ")
+                                        (cons "&" nil))
+  (electric-operator-add-rules-for-mode 'c-ts-mode
+                                        (cons "*" nil))
+  (electric-operator-add-rules-for-mode 'go-ts-mode
+					(cons ":=" " := "))
+  (electric-operator-add-rules-for-mode 'ess-mode
+					(cons "=" " = "))
   )
 
 (use-package undo-tree

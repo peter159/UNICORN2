@@ -44,24 +44,52 @@
   :init
   (setq eglot-send-changes-idle-time 0.2
 	eglot-autoshutdown t
-	eglot-connect-timeout 120
+	;; eglot-connect-timeout 120
 	eglot-ignored-server-capabilities '(:inlayHintProvider)
 	eldoc-echo-area-use-multiline-p t
-	eglot-events-buffer-size 1
+	;; eglot-events-buffer-size 1
 	eglot-server-programs '(
 				((python-mode python-ts-mode) . ("pyright-langserver" "--stdio"))
+				;; ((python-mode python-ts-mode) . ("pylyzer" "--server"
+				;; 				 :initializationOptions (:diagnostics t
+				;; 				                         :inlineHints t
+				;; 				                         :smartCompletion t)))
 				((ess-r-mode) . ("R" "--slave" "-e" "languageserver::run()"))
-				((c++-mode c-mode c++-ts-mode c-ts-mode objc-mode) ("clangd"))
+				((c++-mode c-mode c++-ts-mode c-ts-mode objc-mode) . ("clangd"
+										      ;; 在后台自动分析文件（基于complie_commands)
+										      "--background-index"
+										      ;; 标记compelie_commands.json文件的目录位置
+										      "--compile-commands-dir=build"
+										      ;; 全局补全（会自动补充头文件）
+										      "--all-scopes-completion"
+										      ;; 更详细的补全内容
+										      "--completion-style=detailed"
+										      ;; 同时开启的任务数量
+										      "-j=12"
+										      "-cross-file-rename"
+										      ;;clang-tidy功能
+										      "--clang-tidy"
+										      "--clang-tidy-checks=performance-*,bugprone-*"
+										      ;; 告诉clangd用那个clang进行编译，路径参考which clang++的路径
+										      ;; "--query-driver=/opt/llvm/bin/clang++"
+										      ;; 同时开启的任务数量
+										      ;; 补充头文件的形式
+										      ;; "--header-insertion=iwyu"
+										      ;; pch优化的位置
+										      ;; "--pch-storage=disk"
+										      ))
 				((cmake-mode cmake-ts-mode) . ("cmake-language-server"))
 				((bash-ts-mode sh-mode) . ("bash-language-server" "start"))
-				((go-mode go-dot-mod-mode go-dot-work-mode go-ts-mode go-mod-ts-mode)
-				 . ("gopls"))
+				((go-mode go-dot-mod-mode go-dot-work-mode go-ts-mode go-mod-ts-mode) . ("gopls"))
 				((yaml-ts-mode yaml-mode) . ("yaml-language-server" "--stdio"))
 				((dockerfile-mode dockerfile-ts-mode) . ("docker-langserver" "--stdio"))))
   :hook
   ((python-mode python-ts-mode) . (lambda()
 				    (eglot-booster-mode t)
 				    (eglot-ensure)))
+  ((c++-mode c-mode c++-ts-mode c-ts-mode objc-mode) . (lambda()
+							 (eglot-booster-mode t)
+							 (eglot-ensure)))
   ((ess-r-mode) . eglot-ensure)
   )
 
@@ -70,24 +98,24 @@
   :init
   (require 'pretty-hydra)
   (cl-defun pretty-hydra-title (title &optional icon-type icon-name
-                                      &key face height v-adjust)
+				      &key face height v-adjust)
     "Add an icon in the hydra title."
     (let ((face (or face `(:inherit highlight :reverse-video t)))
-          (height (or height 1.2))
-          (v-adjust (or v-adjust 0.0)))
+	  (height (or height 1.2))
+	  (v-adjust (or v-adjust 0.0)))
       (concat
        (when (and (icons-displayable-p) icon-type icon-name)
-         (let ((f (intern (format "nerd-icons-%s" icon-type))))
-           (when (fboundp f)
-             (concat
-              (apply f (list icon-name :face face :height height :v-adjust v-adjust))
-              " "))))
+	 (let ((f (intern (format "nerd-icons-%s" icon-type))))
+	   (when (fboundp f)
+	     (concat
+	      (apply f (list icon-name :face face :height height :v-adjust v-adjust))
+	      " "))))
        (propertize title 'face face)))))
 
 (use-package dape
   :ensure t
   :bind (("<f5>" . dape)
-         ("M-<f5>" . dape-hydra/body))
+	 ("M-<f5>" . dape-hydra/body))
   :custom (dape-buffer-window-arrangment 'right)
   :pretty-hydra
   ((:title (pretty-hydra-title "Debug" 'codicon "nf-cod-debug")
