@@ -53,11 +53,11 @@
 
 ;; add rime support
 (use-package rime
-  :ensure nil
-  :quelpa
-  (rime :fetcher github
-        :repo "DogLooksGood/emacs-rime"
-        :files ("*.el" "Makefile" "lib.c"))
+  :ensure t
+  ;; :quelpa
+  ;; (rime :fetcher github
+  ;;       :repo "DogLooksGood/emacs-rime"
+  ;;       :files ("*.el" "Makefile" "lib.c"))
   :init
   (setq default-input-method "rime"
         rime-user-data-dir (expand-file-name "data/rime" user-emacs-directory)
