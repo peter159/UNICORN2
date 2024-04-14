@@ -34,7 +34,11 @@
   (setq treesit-auto-install 'prompt
         treesit-font-lock-level 4)
   :config
-  ;; (setq python-ts-mode-hook python-mode-hook)
+  (setq treesit-language-source-alist
+        '((vue "https://github.com/ikatyang/tree-sitter-vue")
+          (css "https://github.com/tree-sitter/tree-sitter-css")
+          (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+	  ))
   (global-treesit-auto-mode))
 
 (provide 'init-treesit)

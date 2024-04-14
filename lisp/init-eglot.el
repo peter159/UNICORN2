@@ -75,12 +75,15 @@
 										      ;; "--pch-storage=disk"
 										      ))
 				((cmake-mode cmake-ts-mode) . ("cmake-language-server"))
-				;; (vue-ts-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options)))
-				;; (vue-ts-mode . ("vue-language-server" "--stdio"))
 				((bash-ts-mode sh-mode) . ("bash-language-server" "start"))
 				((go-mode go-dot-mod-mode go-dot-work-mode go-ts-mode go-mod-ts-mode) . ("gopls"))
 				((yaml-ts-mode yaml-mode) . ("yaml-language-server" "--stdio"))
 				((dockerfile-mode dockerfile-ts-mode) . ("docker-langserver" "--stdio"))))
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '(vue-ts-mode . ("vue-language-server" "--stdio"
+                                  :initializationOptions
+                                  (:typescript (:tsdk "/home/linyi/.nvm/versions/node/v21.7.2/lib/node_modules/typescript/lib"))))))
   :hook
   ((python-mode python-ts-mode) . (lambda()
 				    (eglot-booster-mode t)
@@ -91,29 +94,6 @@
   ((ess-r-mode) . eglot-ensure)
   ((js-ts-mode json-ts-mode yaml-ts-mode typescript-ts-mode java-ts-mode mhtml-mode css-ts-mode vue-ts-mode) . eglot-ensure)
   )
-
-;; specific config for vue-ts-mode
-(defun vue-eglot-init-options ()
-  "setup param for vue-st-mode"
-  (let ((tsdk-path (expand-file-name
-                    "lib"
-                    (shell-command-to-string "npm list --global --parseable typescript | head -n1 | tr -d \"\n\""))))
-    `(:typescript (:tsdk ,tsdk-path
-                         :languageFeatures (:completion
-                                            (:defaultTagNameCase "both"
-                                                                 :defaultAttrNameCase "kebabCase"
-                                                                 :getDocumentNameCasesRequest nil
-                                                                 :getDocumentSelectionRequest nil)
-                                            :diagnostics
-                                            (:getDocumentVersionRequest nil))
-                         :documentFeatures (:documentFormatting
-                                            (:defaultPrintWidth 100
-                                                                :getDocumentPrintWidthRequest nil)
-                                            :documentSymbol t
-                                            :documentColor t)))))
-(with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs
-               `(vue-ts-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options)))))
 
 (use-package pretty-hydra
   :ensure t
