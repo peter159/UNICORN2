@@ -181,6 +181,9 @@
   (setf (alist-get 'python-ts-mode apheleia-mode-alist) '(yapf ruff)) ;先用yapf格式化，然後用ruff加工
   (setf (alist-get 'python-mode apheleia-mode-alist) '(isort ruff))
   (setf (alist-get 'c++-ts-mode apheleia-mode-alist) '(clang-format))
+  (setf (alist-get 'typescript-ts-mode apheleia-mode-alist) '(ts-standard))
+  (setf (alist-get 'vue-ts-mode apheleia-mode-alist) '(prettier))
+  (setf (alist-get 'prettier apheleia-formatters) '("prettier" "--tab-width" "4" filepath)) ;modify prettier params
   )
 
 (use-package format-all

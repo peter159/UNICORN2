@@ -41,7 +41,7 @@
 
 (use-package eglot
   :ensure t
-  :init
+  :config
   (setq eglot-send-changes-idle-time 0.2
 	eglot-autoshutdown t
 	;; eglot-connect-timeout 120
@@ -50,10 +50,6 @@
 	;; eglot-events-buffer-size 1
 	eglot-server-programs '(
 				((python-mode python-ts-mode) . ("pyright-langserver" "--stdio"))
-				;; ((python-mode python-ts-mode) . ("pylyzer" "--server"
-				;; 				 :initializationOptions (:diagnostics t
-				;; 				                         :inlineHints t
-				;; 				                         :smartCompletion t)))
 				((ess-r-mode) . ("R" "--slave" "-e" "languageserver::run()"))
 				((c++-mode c-mode c++-ts-mode c-ts-mode objc-mode) . ("clangd"
 										      ;; 在后台自动分析文件（基于complie_commands)
@@ -79,6 +75,8 @@
 										      ;; "--pch-storage=disk"
 										      ))
 				((cmake-mode cmake-ts-mode) . ("cmake-language-server"))
+				;; (vue-ts-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options)))
+				;; (vue-ts-mode . ("vue-language-server" "--stdio"))
 				((bash-ts-mode sh-mode) . ("bash-language-server" "start"))
 				((go-mode go-dot-mod-mode go-dot-work-mode go-ts-mode go-mod-ts-mode) . ("gopls"))
 				((yaml-ts-mode yaml-mode) . ("yaml-language-server" "--stdio"))
@@ -91,7 +89,31 @@
 							 (eglot-booster-mode t)
 							 (eglot-ensure)))
   ((ess-r-mode) . eglot-ensure)
+  ((js-ts-mode json-ts-mode yaml-ts-mode typescript-ts-mode java-ts-mode mhtml-mode css-ts-mode vue-ts-mode) . eglot-ensure)
   )
+
+;; specific config for vue-ts-mode
+(defun vue-eglot-init-options ()
+  "setup param for vue-st-mode"
+  (let ((tsdk-path (expand-file-name
+                    "lib"
+                    (shell-command-to-string "npm list --global --parseable typescript | head -n1 | tr -d \"\n\""))))
+    `(:typescript (:tsdk ,tsdk-path
+                         :languageFeatures (:completion
+                                            (:defaultTagNameCase "both"
+                                                                 :defaultAttrNameCase "kebabCase"
+                                                                 :getDocumentNameCasesRequest nil
+                                                                 :getDocumentSelectionRequest nil)
+                                            :diagnostics
+                                            (:getDocumentVersionRequest nil))
+                         :documentFeatures (:documentFormatting
+                                            (:defaultPrintWidth 100
+                                                                :getDocumentPrintWidthRequest nil)
+                                            :documentSymbol t
+                                            :documentColor t)))))
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               `(vue-ts-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options)))))
 
 (use-package pretty-hydra
   :ensure t
@@ -149,15 +171,39 @@
   :config
   (setq dape-buffer-window-arrangement 'right)
   (plist-put (alist-get 'debugpy dape-configs) 'command "python3")
-
-  ;; ;; Save buffers on startup, useful for interpreted languages
-  ;; (add-hook 'dape-on-start-hooks
-  ;;           (defun dape--save-on-start ()
-  ;;             (save-some-buffers t t)))
-  ;; ;; Display hydra on startup
-  ;; (add-hook 'dape-on-start-hooks #'dape-hydra/body)
   )
 
+;; (use-package vue-ts-mode
+;;   :ensure nil
+;;   :mode ("\\.vue\\'" . vue-ts-mode)
+;;   :quelpa
+;;   (vue-ts-mode :fetcher github
+;; 	       :repo "8uff3r/vue-ts-mode")
+;;   :config
+;;   ;; from https://github.com/joaotavora/eglot/discussions/1184
+;;   (with-eval-after-load 'eglot
+;;     (defun vue-eglot-init-options ()
+;;       ;; installed with (my/eglot-server--npm-dependancy-install "typescript")
+;;       (let ((tsdk-path (expand-file-name
+;;                         "lib"
+;;                         (string-trim-right
+;;                          (shell-command-to-string "npm list --global --parseable typescript | head -n1 | tr -d \"\n\"")))))
+;;         `(:typescript (:tsdk ,tsdk-path
+;;                              :languageFeatures (:completion
+;;                                                 (:defaultTagNameCase "both"
+;;                                                                      :defaultAttrNameCase "kebabCase"
+;;                                                                      :getDocumentNameCasesRequest nil
+;;                                                                      :getDocumentSelectionRequest nil)
+;;                                                 :diagnostics
+;;                                                 (:getDocumentVersionRequest nil))
+;;                              :documentFeatures (:documentFormatting
+;;                                                 (:defaultPrintWidth 100
+;;                                                                     :getDocumentPrintWidthRequest nil)
+;;                                                 :documentSymbol t
+;;                                                 :documentColor t)))))
+;;     (push `(vue-ts-mode . ("vue-language-server" "--stdio"
+;;                            :initializationOptions ,(vue-eglot-init-options)))
+;;           eglot-server-programs)))
 
 (provide 'init-eglot)
 (message "init-eglot loaded in '%.2f' seconds ..." (get-time-diff time-marked))

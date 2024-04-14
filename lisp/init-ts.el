@@ -30,6 +30,7 @@
 
 ;; Major mode for editing web templates
 (use-package web-mode
+  :ensure t
   :mode "\\.\\(phtml\\|php\\|[gj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tm?pl\\|vue\\)$"
   :hook (web-mode . (lambda () (electric-operator-mode -1)))
   :config
@@ -37,8 +38,9 @@
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2)
-  ;; (add-hook 'web-mode-hook (lambda () (electric-operator-mode -1)))
+  ;; (add-hook 'web-mode-hook (lambda () (electric-operator-mode -1))
   )
+
 
 ;; https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/
 ;; npm i -g typescript-language-server; npm i -g typescript
@@ -49,12 +51,14 @@
   (setq typescript-indent-level 2)
   )
 
-(use-package lsp-volar
+(use-package vue-ts-mode
   :ensure nil
+  :mode ("\\.vue\\'" . vue-ts-mode)
   :quelpa
-  (lsp-volar :fetcher github
-	     :repo "jadestrong/lsp-volar"
-	     )
+  (vue-ts-mode :fetcher github
+	       :repo "8uff3r/vue-ts-mode")
+  :hook
+  (vue-ts-mode . (lambda() (electric-operator-mode -1)))
   )
 
 
