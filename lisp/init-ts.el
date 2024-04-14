@@ -46,7 +46,7 @@
 ;; npm i -g typescript-language-server; npm i -g typescript
 (use-package typescript-mode
   :ensure t
-  :mode ("\\.ts\\'" . typescript-mode)
+  :mode ("\\.ts\\'" . typescript-ts-mode)
   :config
   (setq typescript-indent-level 2)
   )
@@ -61,6 +61,9 @@
   (vue-ts-mode . (lambda() (electric-operator-mode -1)))
   )
 
+(use-package emmet-mode
+  :ensure t
+  :hook (web-mode sgml-mode html-mode css-mode vue-ts-mode))
 
 (provide 'init-ts)
 (message "init-ts loaded in '%.2f' seconds" (get-time-diff time-marked))

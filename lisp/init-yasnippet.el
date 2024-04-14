@@ -28,25 +28,30 @@
 
 (use-package yasnippet
   :ensure t
+  ;; :quelpa
+  ;; (yasnippet :fetcher github
+  ;;   	     :repo "joaotavora/yasnippet"
+  ;;   	     :files ("*"))
   :diminish yas-minor-mode
-  :hook (after-init . yas-global-mode))
-
-(use-package yasnippet-snippets
-  :ensure nil
-  :quelpa
-  (yasnippet-snippets :fetcher github
-    		      :repo "AndreaCrotti/yasnippet-snippets"
-    		      :files ("*"))
+  :hook (after-init . yas-global-mode)
+  :config
+  (use-package yasnippet-snippets
+    :ensure nil
+    :quelpa
+    (yasnippet-snippets :fetcher github
+    			:repo "AndreaCrotti/yasnippet-snippets"
+    			:files ("*"))
+    )
+  (use-package yasnippet-capf
+    :ensure nil
+    :quelpa
+    (yasnippet-capf :fetcher github
+    		    :repo "elken/yasnippet-capf"
+    		    :files ("*"))
+    :init
+    (add-to-list 'completion-at-point-functions #'yasnippet-capf))
   )
 
-(use-package yasnippet-capf
-  :ensure nil
-  :quelpa
-  (yasnippet-capf :fetcher github
-    		  :repo "elken/yasnippet-capf"
-    		  :files ("*"))
-  :init
-  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
 (provide 'init-yasnippet)
 (message "init-yasnippet loaded in '%.2f' seconds ..." (get-time-diff time-marked))
