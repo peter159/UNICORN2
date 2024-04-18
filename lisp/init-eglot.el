@@ -76,49 +76,49 @@
 										      ))
 				((cmake-mode cmake-ts-mode) . ("cmake-language-server"))
 				((bash-ts-mode sh-mode) . ("bash-language-server" "start"))
-				;; ((vue-ts-mode) . ("vls" "--stdio")) ; vue2
+				((vue-ts-mode) . ("vls" "--stdio")) ; vue2
 				((js-ts-mode typescript-ts-mode typescript-mode) . ("typescript-language-server" "--stdio"))
 				((go-mode go-dot-mod-mode go-dot-work-mode go-ts-mode go-mod-ts-mode) . ("gopls"))
 				((yaml-ts-mode yaml-mode) . ("yaml-language-server" "--stdio"))
 				((dockerfile-mode dockerfile-ts-mode) . ("docker-langserver" "--stdio"))))
-  (with-eval-after-load 'eglot
-    (defun vue-eglot-init-options ()
-      (let ((tsdk-path (expand-file-name
-                        "lib"
-                        (shell-command-to-string "npm list --global --parseable typescript | head -n1 | tr -d \"\n\""))))
-        `(:typescript (:tsdk ,tsdk-path
-			     :languageFeatures (
-						:references t
-						:implementation t
-						:definition t
-						:typeDefinition t
-						:rename t
-						:renameFileRefactoring t
-						:signatureHelp t
-						:codeAction t
-						:workspaceSymbol t
-						:completion (
-							     :defaultTagNameCase ""
-							     :defaultAttrNameCase ""
-							     :getDocumentNameCasesRequest :json-false
-							     :getDocumentSelectionRequest :json-false)
-						:schemaRequestService (:getDocumentContentRequest :json-false))
-			     :documentFeatures (
-						:selectionRange t,
-						:foldingRange :json-false,
-						:linkedEditingRange t,
-						:documentSymbol t,
-						:documentColor t,
-						:documentFormatting (
-								     :defaultPrintWidth 100
-								     :getDocumentPrintWidthRequest :json-false)
-						:defaultPrintWidth 100
-						:getDocumentPrintWidthRequest :json-false)
-			     ))))
-    ;; Volar
-    (add-to-list 'eglot-server-programs
-		 `((vue-ts-mode) . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options))))
-    )
+  ;; (with-eval-after-load 'eglot
+  ;;   (defun vue-eglot-init-options ()
+  ;;     (let ((tsdk-path (expand-file-name
+  ;;                       "lib"
+  ;;                       (shell-command-to-string "npm list --global --parseable typescript | head -n1 | tr -d \"\n\""))))
+  ;;       `(:typescript (:tsdk ,tsdk-path
+  ;; 			     :languageFeatures (
+  ;; 						:references t
+  ;; 						:implementation t
+  ;; 						:definition t
+  ;; 						:typeDefinition t
+  ;; 						:rename t
+  ;; 						:renameFileRefactoring t
+  ;; 						:signatureHelp t
+  ;; 						:codeAction t
+  ;; 						:workspaceSymbol t
+  ;; 						:completion (
+  ;; 							     :defaultTagNameCase ""
+  ;; 							     :defaultAttrNameCase ""
+  ;; 							     :getDocumentNameCasesRequest :json-false
+  ;; 							     :getDocumentSelectionRequest :json-false)
+  ;; 						:schemaRequestService (:getDocumentContentRequest :json-false))
+  ;; 			     :documentFeatures (
+  ;; 						:selectionRange t,
+  ;; 						:foldingRange :json-false,
+  ;; 						:linkedEditingRange t,
+  ;; 						:documentSymbol t,
+  ;; 						:documentColor t,
+  ;; 						:documentFormatting (
+  ;; 								     :defaultPrintWidth 100
+  ;; 								     :getDocumentPrintWidthRequest :json-false)
+  ;; 						:defaultPrintWidth 100
+  ;; 						:getDocumentPrintWidthRequest :json-false)
+  ;; 			     ))))
+  ;;   ;; Volar
+  ;;   (add-to-list 'eglot-server-programs
+  ;; 		 `((vue-ts-mode) . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options))))
+  ;;   )
   ;; ;; (with-eval-after-load 'eglot
   ;; ;;   (defun vue-eglot-init-options ()
   ;; ;;     (let ((tsdk-path (expand-file-name
