@@ -128,8 +128,8 @@
      (3 . (rainbow bold 1.2))
      (t . (semilight 1.1)))))
 
-(load-theme 'modus-operandi-tinted t)
-;; (load-theme 'modus-vivendi-tinted t)
+;; (load-theme 'modus-operandi-tinted t)
+(load-theme 'modus-vivendi-tinted t)
 
 (use-package display-line-numbers-mode
   :ensure nil

@@ -31,7 +31,7 @@
 ;; Major mode for editing web templates
 (use-package web-mode
   :ensure t
-  :mode "\\.\\(phtml\\|php\\|[gj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tm?pl\\|vue\\)$"
+  :mode "\\.\\(phtml\\|php\\|[gj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tm?pl\\)$"
   :hook (web-mode . (lambda () (electric-operator-mode -1)))
   :config
   (setq electric-pair-mode t)
@@ -70,29 +70,6 @@
   :ensure t
   :hook (web-mode sgml-mode html-mode css-mode vue-ts-mode))
 
-(with-eval-after-load 'eglot
-  (defun vue-eglot-init-options ()
-    (let ((tsdk-path (expand-file-name
-                      "lib"
-                      (shell-command-to-string "npm list --global --parseable typescript | head -n1 | tr -d \"\n\""))))
-      `(:typescript (:tsdk ,tsdk-path
-                           :languageFeatures (:completion
-                                              (:defaultTagNameCase "both"
-								   :defaultAttrNameCase "kebabCase"
-								   :getDocumentNameCasesRequest nil
-								   :getDocumentSelectionRequest nil)
-                                              :diagnostics
-                                              (:getDocumentVersionRequest nil))
-                           :documentFeatures (:documentFormatting
-                                              (:defaultPrintWidth 100
-								  :getDocumentPrintWidthRequest nil)
-                                              :documentSymbol t
-                                              :documentColor t)))))
-
-  ;; Volar
-  (add-to-list 'eglot-server-programs
-               `(vue-ts-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options))))
-  )
 
 (provide 'init-ts)
 (message "init-ts loaded in '%.2f' seconds" (get-time-diff time-marked))
