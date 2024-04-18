@@ -27,23 +27,23 @@
 (mark-time-here)
 
 (use-package yasnippet
-  :ensure t
-  ;; :quelpa
-  ;; (yasnippet :fetcher github
-  ;;   	     :repo "joaotavora/yasnippet"
-  ;;   	     :files ("*"))
+  ;; :ensure t
+  :quelpa
+  (yasnippet :fetcher github
+    	     :repo "joaotavora/yasnippet"
+    	     :files ("*"))
   :diminish yas-minor-mode
   :hook (after-init . yas-global-mode)
   :config
   (use-package yasnippet-snippets
-    :ensure nil
+    :ensure t
     :quelpa
     (yasnippet-snippets :fetcher github
     			:repo "AndreaCrotti/yasnippet-snippets"
     			:files ("*"))
     )
   (use-package yasnippet-capf
-    :ensure nil
+    :ensure t
     :quelpa
     (yasnippet-capf :fetcher github
     		    :repo "elken/yasnippet-capf"

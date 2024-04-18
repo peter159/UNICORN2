@@ -76,7 +76,7 @@
 										      ))
 				((cmake-mode cmake-ts-mode) . ("cmake-language-server"))
 				((bash-ts-mode sh-mode) . ("bash-language-server" "start"))
-				((js-ts-mode typescript-ts-mode) . ("typescript-language-server" "--stdio"))
+				((js-ts-mode typescript-ts-mode typescript-mode) . ("typescript-language-server" "--stdio"))
 				((go-mode go-dot-mod-mode go-dot-work-mode go-ts-mode go-mod-ts-mode) . ("gopls"))
 				((yaml-ts-mode yaml-mode) . ("yaml-language-server" "--stdio"))
 				((dockerfile-mode dockerfile-ts-mode) . ("docker-langserver" "--stdio"))))

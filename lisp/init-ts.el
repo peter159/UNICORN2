@@ -49,7 +49,12 @@
   :mode ("\\.ts\\'" . typescript-ts-mode)
   :config
   (setq typescript-indent-level 2)
+  :hook
+  (typescript-ts-mode . js2-minor-mode)
   )
+
+(use-package js2-mode
+  :ensure t)
 
 (use-package vue-ts-mode
   :ensure nil
@@ -64,6 +69,30 @@
 (use-package emmet-mode
   :ensure t
   :hook (web-mode sgml-mode html-mode css-mode vue-ts-mode))
+
+(with-eval-after-load 'eglot
+  (defun vue-eglot-init-options ()
+    (let ((tsdk-path (expand-file-name
+                      "lib"
+                      (shell-command-to-string "npm list --global --parseable typescript | head -n1 | tr -d \"\n\""))))
+      `(:typescript (:tsdk ,tsdk-path
+                           :languageFeatures (:completion
+                                              (:defaultTagNameCase "both"
+								   :defaultAttrNameCase "kebabCase"
+								   :getDocumentNameCasesRequest nil
+								   :getDocumentSelectionRequest nil)
+                                              :diagnostics
+                                              (:getDocumentVersionRequest nil))
+                           :documentFeatures (:documentFormatting
+                                              (:defaultPrintWidth 100
+								  :getDocumentPrintWidthRequest nil)
+                                              :documentSymbol t
+                                              :documentColor t)))))
+
+  ;; Volar
+  (add-to-list 'eglot-server-programs
+               `(vue-ts-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options))))
+  )
 
 (provide 'init-ts)
 (message "init-ts loaded in '%.2f' seconds" (get-time-diff time-marked))
