@@ -207,31 +207,6 @@ as the pyenv version then also return nil. This works around https://github.com/
         )))
   :hook ((python-mode python-ts-mode) . pyvenv-autoload))
 
-(use-package docstr
-  :hook ((python-mode python-ts-mode) . (lambda ()
-                                          ;; (setq-local docstr-desc-summary "")
-                                          (docstr-mode 1)))
-  :init
-  (setq docstr-python-modes '(python-mode python-ts-mode)
-        ;; docstr-python-style 'google
-        ;; docstr-python-style 'pep-257
-        docstr-python-style 'numpy
-        docstr-key-support t)
-  :config
-  ;; config python-ts-mode
-  (add-to-list 'docstr-writers-alist '(python-ts-mode . docstr-writers-python))
-  (add-to-list 'docstr-prefix-alist '(python-ts-mode . docstr-python-prefix))
-  (add-to-list 'docstr-key-sharp-doc-modes 'python-ts-mode)
-  (global-docstr-mode)
-  (defcustom docstr-python-style 'pep-257
-    "Style specification for document string in Python."
-    :type '(choice (const :tag "No specify" nil)
-                   (const :tag "PEP 257 convention" pep-257)
-                   (const :tag "Google style" google)
-                   (const :tag "NumPy Style" numpy))
-    :group 'docstr)
-  )
-
 (provide 'init-lsp-python)
 (message "init-python loaded in '%.2f' seconds ..." (get-time-diff time-marked))
 ;;; init-lsp-python.el ends here
