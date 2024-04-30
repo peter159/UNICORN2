@@ -39,17 +39,20 @@
 	       `("\\.h\\'" . c++-mode))
   :config
   (require 'compile)
-  (add-to-list 'auto-mode-alist '("\.cu$" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\.cu$" . c++-ts-mode))
+  (progn
+    (setq-default c-default-style "linux"
+		  c-basic-offset 4))
   )
 
 (use-package smart-semicolon
   :ensure t
   :defer t
-  :hook ((c-mode-common . smart-semicolon-mode)))
+  :hook (((c-mode-common c++-ts-mode) . smart-semicolon-mode)))
 
 (use-package modern-cpp-font-lock
   :ensure t
-  :hook (c++-mode . modern-c++-font-lock-mode))
+  :hook ((c++-mode c++-ts-mode) . modern-c++-font-lock-mode))
 
 (use-package cmake-mode
   :ensure t
@@ -57,7 +60,9 @@
   :config
   (add-hook 'cmake-mode-hook (lambda()
                                (add-to-list (make-local-variable 'company-backends)
-                                            'company-cmake))))
+                                            'company-cmake)))
+  )
+
 (use-package google-c-style
   :ensure t
   :init

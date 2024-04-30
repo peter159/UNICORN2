@@ -184,7 +184,7 @@
   (setf (alist-get 'typescript-ts-mode apheleia-mode-alist) '(prettier))
   (setf (alist-get 'js-ts-mode apheleia-mode-alist) '(prettier))
   (setf (alist-get 'vue-ts-mode apheleia-mode-alist) '(prettier))
-  (setf (alist-get 'prettier apheleia-formatters) '("prettier" "--tab-width" "4" filepath)) ;modify prettier params
+  (setf (alist-get 'prettier apheleia-formatters) '("prettier" "--tab-width" "4" "--bracket-same-line" "true" filepath)) ;modify prettier params
   )
 
 (use-package format-all

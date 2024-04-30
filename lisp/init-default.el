@@ -172,6 +172,10 @@
                                         (cons "*" nil)
                                         (cons "<<" " << ")
                                         (cons "=" " = ")
+                                        (cons "==" " == ")
+                                        (cons "+=" " += ")
+                                        (cons "<=" " <= ")
+                                        (cons ">=" " >= ")
                                         (cons "&" nil))
   (electric-operator-add-rules-for-mode 'c-ts-mode
                                         (cons "*" nil))
