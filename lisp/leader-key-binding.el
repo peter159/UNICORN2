@@ -317,7 +317,7 @@
     ;; backend
     "mba" #'lsp-execute-code-action
     "mbd" #'lsp-describe-session
-    "mbr" #'lsp-restart-workspace
+    "mbr" #'eglot
     "mbs" #'lsp-shutdown-workspace
     ;; refactor
     "mrr" #'eglot-rename		;#'lsp-rename
