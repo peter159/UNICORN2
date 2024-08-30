@@ -26,7 +26,7 @@
 
 (mark-time-here)
 
-(setq-local unicorn-font-size 11)
+(setq-local unicorn-font-size 12)
 ;; setup english word font and size
 (set-face-attribute 'default nil :font (format "JetBrains Mono-%S" unicorn-font-size)) ; Fira Code Retina-%S; Fira Code Retina-%S
 (set-face-attribute 'fixed-pitch-serif nil :family "Iosevka")

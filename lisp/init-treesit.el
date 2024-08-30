@@ -42,5 +42,12 @@
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
+(use-package treesit-fold
+  :ensure t
+  :quelpa (treesit-fold
+	   :fetcher github
+	   :repo "emacs-tree-sitter/treesit-fold"
+	   :files ("*.el")))
+
 (provide 'init-treesit)
 (message "init-treesit loaded in '%.2f' seconds ..." (get-time-diff time-marked))
