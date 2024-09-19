@@ -311,12 +311,17 @@ current window."
   (which-key-add-key-based-replacements (format ", %s" key) name))
 
 (defun windows-to-linux-path ()
-  "Prompts the user for a Windows path and converts it to a Linux path."
+  "Prompts the user for a Windows path and converts it to a Linux path.
+The resulting Linux path will be copied to the clipboard."
   (interactive)
   (let* ((path (read-string "Enter Windows path: "))
-         (linux-path (replace-regexp-in-string "\\\\" "/" path)))
-    (message "Linux path: %s" (concat "/mnt/" (downcase (substring linux-path 0 1)) (substring linux-path 2)))
-    (kill-new (concat "/mnt/" (downcase (substring linux-path 0 1)) (substring linux-path 2)))))
+         ;; Replace backslashes with forward slashes
+         (linux-path (replace-regexp-in-string "\\\\" "/" path))
+         ;; Extract drive letter and construct Linux path
+         (linux-path (concat "/mnt/" (downcase (substring linux-path 0 1)) (substring linux-path 2))))
+    ;; Output the Linux path and copy it to the clipboard
+    (message "Linux path: %s" linux-path)
+    (kill-new linux-path)))
 
 (defun symbol-outline-or-imenu-list-toggle ()
   "Toggle `symbols-outline-mode' or `imenu-list-mode' based on whether `lsp-mode' or `symbols-outline-mode' is active."
