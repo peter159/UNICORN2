@@ -102,7 +102,7 @@
 (which-key-add-key-based-replacements
   (format "%s fv" unicorn-evil-leader-key) "variable")
 (evil-leader/set-key
-  "ff"  'find-file
+  "ff"  'my-find-file
   "fj"  'dired-jump
   "ft"  'treemacs
   "fB"  'treemacs-bookmark

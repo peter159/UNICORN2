@@ -310,19 +310,6 @@ current window."
   (which-key-add-key-based-replacements (format "%s m%s" unicorn-evil-major-leader-insert-default-key key) name)
   (which-key-add-key-based-replacements (format ", %s" key) name))
 
-(defun windows-to-linux-path ()
-  "Prompts the user for a Windows path and converts it to a Linux path.
-The resulting Linux path will be copied to the clipboard."
-  (interactive)
-  (let* ((path (read-string "Enter Windows path: "))
-         ;; Replace backslashes with forward slashes
-         (linux-path (replace-regexp-in-string "\\\\" "/" path))
-         ;; Extract drive letter and construct Linux path
-         (linux-path (concat "/mnt/" (downcase (substring linux-path 0 1)) (substring linux-path 2))))
-    ;; Output the Linux path and copy it to the clipboard
-    (message "Linux path: %s" linux-path)
-    (kill-new linux-path)))
-
 (defun symbol-outline-or-imenu-list-toggle ()
   "Toggle `symbols-outline-mode' or `imenu-list-mode' based on whether `lsp-mode' or `symbols-outline-mode' is active."
   (interactive)
@@ -332,6 +319,39 @@ The resulting Linux path will be copied to the clipboard."
           (get-buffer-window "*Outline*" t))
       (symbols-outline-smart-toggle)
     (imenu-list-smart-toggle)))
+
+;; (defun windows-to-linux-path ()
+;;   "Prompts the user for a Windows path and converts it to a Linux path.
+;; The resulting Linux path will be copied to the clipboard."
+;;   (interactive)
+;;   (let* ((path (read-string "Enter Windows path: "))
+;;          ;; Replace backslashes with forward slashes
+;;          (linux-path (replace-regexp-in-string "\\\\" "/" path))
+;;          ;; Extract drive letter and construct Linux path
+;;          (linux-path (concat "/mnt/" (downcase (substring linux-path 0 1)) (substring linux-path 2))))
+;;     ;; Output the Linux path and copy it to the clipboard
+;;     (message "Linux path: %s" linux-path)
+;;     (kill-new linux-path)))
+
+(defun my-find-file (path)
+  "Open a file, converting Windows paths to Linux style if necessary.
+If the path contains a drive letter, remove everything before and keep the drive letter."
+  (interactive "FEnter path: ")
+  (let* ((path-with-slashes (replace-regexp-in-string "\\\\" "/" path)) ;; 替换所有反斜杠为正斜杠
+         ;; Remove everything before the drive letter, keeping the drive letter
+         (path-with-drive
+          (replace-regexp-in-string
+           "^.*\\([a-zA-Z]:/.*\\)$" ;; Match everything before and including the drive letter and the rest
+           "\\1" ;; Capture the part including the drive letter and the rest of the path
+           path-with-slashes))
+         ;; Convert the drive letter to the Linux style path
+         (converted-path
+          (replace-regexp-in-string
+           "\\([a-zA-Z]\\):/"
+           (lambda (match)
+             (concat "/mnt/" (downcase (match-string 1 match)) "/"))
+           path-with-drive))) ;; 进行盘符替换
+    (find-file converted-path)))
 
 (provide 'leader-core-functions)
 (message "leader-core-functions loaded in '%.2f' seconds ..." (get-time-diff time-marked))
