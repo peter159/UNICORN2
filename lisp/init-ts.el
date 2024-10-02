@@ -49,8 +49,8 @@
   :mode ("\\.ts\\'" . typescript-ts-mode)
   :config
   (setq typescript-indent-level 2)
-  :hook
-  (typescript-ts-mode . js2-minor-mode)
+  ;; :hook
+  ;; (typescript-ts-mode . js2-minor-mode)
   )
 
 (use-package js2-mode

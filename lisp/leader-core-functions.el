@@ -320,18 +320,18 @@ current window."
       (symbols-outline-smart-toggle)
     (imenu-list-smart-toggle)))
 
-;; (defun windows-to-linux-path ()
-;;   "Prompts the user for a Windows path and converts it to a Linux path.
-;; The resulting Linux path will be copied to the clipboard."
-;;   (interactive)
-;;   (let* ((path (read-string "Enter Windows path: "))
-;;          ;; Replace backslashes with forward slashes
-;;          (linux-path (replace-regexp-in-string "\\\\" "/" path))
-;;          ;; Extract drive letter and construct Linux path
-;;          (linux-path (concat "/mnt/" (downcase (substring linux-path 0 1)) (substring linux-path 2))))
-;;     ;; Output the Linux path and copy it to the clipboard
-;;     (message "Linux path: %s" linux-path)
-;;     (kill-new linux-path)))
+(defun windows-to-linux-path ()
+  "Prompts the user for a Windows path and converts it to a Linux path.
+The resulting Linux path will be copied to the clipboard."
+  (interactive)
+  (let* ((path (read-string "Enter Windows path: "))
+         ;; Replace backslashes with forward slashes
+         (linux-path (replace-regexp-in-string "\\\\" "/" path))
+         ;; Extract drive letter and construct Linux path
+         (linux-path (concat "/mnt/" (downcase (substring linux-path 0 1)) (substring linux-path 2))))
+    ;; Output the Linux path and copy it to the clipboard
+    (message "Linux path: %s" linux-path)
+    (kill-new linux-path)))
 
 (defun my-find-file (path)
   "Open a file, converting Windows paths to Linux style if necessary.
