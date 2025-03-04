@@ -131,25 +131,25 @@
   :diminish editorconfig-mode
   :hook (after-init . editorconfig-mode))
 
-;; https://wakatime.com/emacs
-;; TODO custom modify: find `wakatime-call', change `"%s--entity %s --plugin \"%s/%s\" --time %.2f%s%s"' to `"'%s--entity %s --plugin \"%s/%s\" --time %.2f%s%s'"'
-(use-package wakatime-mode
-  :ensure nil
-  :quelpa
-  (wakatime-mode :repo "wakatime/wakatime-mode"
-		 :fetcher github
-		 :upgrade t)
-  :diminish 'wakatime-mode
-  :preface
-  (defun wakatime-dashboard ()
-    (interactive)
-    (browse-url "https://wakatime.com/dashboard"))
-  :hook
-  (after-init . global-wakatime-mode)
-  :config
-  ;; use `pip install wakatime' and `which wakatime' to get cli path
-  (setq wakatime-cli-path "~/.wakatime/wakatime-cli")
-  )
+;; ;; https://wakatime.com/emacs
+;; ;; TODO custom modify: find `wakatime-call', change `"%s--entity %s --plugin \"%s/%s\" --time %.2f%s%s"' to `"'%s--entity %s --plugin \"%s/%s\" --time %.2f%s%s'"'
+;; (use-package wakatime-mode
+;;   :ensure nil
+;;   :quelpa
+;;   (wakatime-mode :repo "wakatime/wakatime-mode"
+;; 		 :fetcher github
+;; 		 :upgrade t)
+;;   :diminish 'wakatime-mode
+;;   :preface
+;;   (defun wakatime-dashboard ()
+;;     (interactive)
+;;     (browse-url "https://wakatime.com/dashboard"))
+;;   :hook
+;;   (after-init . global-wakatime-mode)
+;;   :config
+;;   ;; use `pip install wakatime' and `which wakatime' to get cli path
+;;   (setq wakatime-cli-path "~/.wakatime/wakatime-cli")
+;;   )
 
 (use-package rg
   :ensure t

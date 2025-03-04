@@ -350,6 +350,7 @@
 (evil-leader/set-key-for-mode 'python-ts-mode "mva" 'pyvenv-activate)
 (evil-leader/set-key-for-mode 'python-ts-mode "mvd" 'pyvenv-deactivate)
 (evil-leader/set-key-for-mode 'python-ts-mode "mvw" 'pyvenv-workon)
+(evil-leader/set-key-for-mode 'python-ts-mode "msv" 'unicorn/pyright-setup-project-config)
 
 (if (eq system-type 'windows-nt)
     (progn
