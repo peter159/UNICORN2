@@ -1,0 +1,7 @@
+CompileFlags:
+  Add:
+    - -I/usr/include/c++/13
+    - -I/usr/include/x86_64-linux-gnu/c++/13
+    - -I/usr/include/c++/13/backward
+    - -I/usr/local/include
+    - -I/usr/lib/llvm-13/lib/clang/13.0.0/include
