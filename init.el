@@ -28,7 +28,7 @@
 (require 'package)
 
 ;; set http proxy, not need when set `git config --global http.proxy' in terminal
-(defvar global-httpproxy "172.24.16.1:12333")
+(defvar global-httpproxy "192.168.1.17:12333")
 (if (string= (system-name) "Ubun-born")
     (setq global-httpproxy "127.0.0.1:12333"))
 (setenv "http_proxy" (concat "http://" global-httpproxy))

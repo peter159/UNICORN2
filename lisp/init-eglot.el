@@ -44,8 +44,12 @@
   :config
   (setq eglot-send-changes-idle-time 0.2
 	eglot-autoshutdown t
-	;; eglot-connect-timeout 120
-	eglot-ignored-server-capabilities '(:inlayHintProvider)
+	eglot-connect-timeout 1200
+	eglot-ignored-server-capabilities '(
+					    ;; :inlayHintProvider
+					    :documentHighlightProvider
+					    :documentonTypeFormattingProvider
+					    )
 	eldoc-echo-area-use-multiline-p t
 	eglot-server-programs '(
 				((python-mode python-ts-mode) . ("pyright-langserver" "--stdio"))
