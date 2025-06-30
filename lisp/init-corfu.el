@@ -37,7 +37,11 @@
   (add-hook 'orderless-style-dispatchers #'nasy/orderless-dispatch-flex-first nil 'local))
 
 ;; use corfu instead
-(use-package nerd-icons :ensure t)
+(use-package nerd-icons
+  :ensure t
+  ;; 如果你想用别的 Nerd Font，这里也可以设置：
+  :custom (nerd-icons-font-family "Hack Nerd Font")
+  )
 
 (use-package nerd-icons-corfu
   :ensure t
