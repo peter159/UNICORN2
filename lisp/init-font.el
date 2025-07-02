@@ -26,14 +26,14 @@
 
 (mark-time-here)
 
-(setq-local unicorn-font-size 120)
+(setq-local unicorn-font-size 12)
 ;; setup english word font and size
 ;; (set-face-attribute 'default nil :font (format "JetBrains Mono-%S" unicorn-font-size)) ; Fira Code Retina-%S; Fira Code Retina-%S
 ;; 如果你还想把 Emacs 默认字体也改成 Hack Nerd Font
 (when (display-graphic-p)
   (set-face-attribute 'default nil
                       :family "Hack Nerd Font"
-                      :height unicorn-font-size))  ;; 12pt = 120
+                      :height (* 10 unicorn-font-size)))  ;; 12pt = 120
 (set-face-attribute 'fixed-pitch-serif nil :family "Iosevka")
 ;; (set-face-attribute 'default nil :font (format "Fira Code Retina-%S" 12)) ; Fira Code Retina-%S; Fira Code Retina-%S
 (setq-default line-spacing 0.2)
