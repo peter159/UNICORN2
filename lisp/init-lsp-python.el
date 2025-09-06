@@ -128,7 +128,7 @@ as the pyenv version then also return nil. This works around https://github.com/
 (defun unicorn/pyright-createstub (pkg)
   (interactive "sStub package (import name): ")
   (let* ((root  (expand-file-name "~/.stubs/"))
-         (pyi   (expand-file-name "~/.nvm/versions/node/v21.7.2/bin/pyright"))
+         (pyi   (expand-file-name "pyright"))
          (name  (string-trim pkg))
          (tdir  (expand-file-name "typings" root))
          (dest  (expand-file-name name tdir)))
@@ -143,30 +143,6 @@ as the pyenv version then also return nil. This works around https://github.com/
         (if (eq code 0)
             (message "stub created: %s -> %s/" name dest)
           (error "pyright failed (%s). See *Pyright Stub*" code))))))
-
-;; (defun unicorn/create-pyright-stub (pkg)
-;;   "Create a Pyright stub for the specified package."
-;;   (interactive "sEnter package name: ")
-;;   (let* ((stubs-dir "~/.stubs")
-;;          (typing-dir (concat stubs-dir "/typings"))
-;;          (pkg-dir (concat typing-dir "/" pkg))
-;;          (pyright-command (concat "/home/linyi/.nvm/versions/node/v21.7.2/bin/pyright --createstub " pkg))
-;;          (current-dir default-directory)) ; Record the current directory
-;;     ;; Step 1: Switch to ~/.stubs directory
-;;     (cd stubs-dir)
-;;     ;; Step 2: Check if [pkg] directory exists in ~/.stubs/typing
-;;     (if (file-exists-p pkg-dir)
-;;         (progn
-;;           (message (concat pkg " directory already exists in ~/.stubs/typings."))
-;;           (when (yes-or-no-p "Do you want to delete it? ")
-;;             (delete-directory pkg-dir t)
-;;             (message (concat pkg " directory deleted."))))
-;;       (message (concat pkg " directory does not exist in ~/.stubs/typings.")))
-;;     ;; Step 3: Execute ~/.emacs.d/.cache/lsp/npm/pyright/bin/pyright --createstub [pkg]
-;;     (shell-command pyright-command)
-;;     (message (concat "Pyright stub created for " pkg "."))
-;;     ;; Step 4: Switch back to the original directory
-;;     (cd current-dir)))
 
 (use-package python
   :ensure nil

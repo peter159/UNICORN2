@@ -52,7 +52,7 @@
 					    )
 	eldoc-echo-area-use-multiline-p t
 	eglot-server-programs '(
-				((python-mode python-ts-mode) . ("pyright-langserver" "--stdio"))
+				((python-mode python-ts-mode) . ("basedpyright-langserver" "--stdio"))
 				((ess-r-mode) . ("R" "--slave" "-e" "languageserver::run()"))
 				((c++-mode c-mode c++-ts-mode c-ts-mode objc-mode) . ("clangd"
 										      ;; 在后台自动分析文件（基于complie_commands)
