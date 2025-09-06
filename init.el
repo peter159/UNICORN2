@@ -96,7 +96,7 @@
 (require 'init-eglot)
 (require 'init-lsp-python)
 (require 'init-lsp-ess)
-(require 'init-lsp-golang)
+;; (require 'init-lsp-golang)
 (require 'init-c-c++)
 (require 'init-java)
 (require 'init-org)

@@ -1,7 +1,7 @@
 {
     "venvPath": "/home/linyi/miniconda3/envs",
     "venv": "pth",
-    "stubPath": "~/.stubs/typings",
+    "stubPath": "/home/linyi/.stubs/typings",
     "pythonVersion": "3.13",
     "typeCheckingMode": "off"
 }

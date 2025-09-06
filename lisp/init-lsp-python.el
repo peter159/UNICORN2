@@ -125,29 +125,48 @@ as the pyenv version then also return nil. This works around https://github.com/
   (shell-command "cp ~/.emacs.d/config_snippets/python/wheelbuilder.sh .")
   )
 
-(defun unicorn/create-pyright-stub (pkg)
-  "Create a Pyright stub for the specified package."
-  (interactive "sEnter package name: ")
-  (let* ((stubs-dir "~/.stubs")
-         (typing-dir (concat stubs-dir "/typings"))
-         (pkg-dir (concat typing-dir "/" pkg))
-         (pyright-command (concat "~/.emacs.d/.cache/lsp/npm/pyright/bin/pyright --createstub " pkg))
-         (current-dir default-directory)) ; Record the current directory
-    ;; Step 1: Switch to ~/.stubs directory
-    (cd stubs-dir)
-    ;; Step 2: Check if [pkg] directory exists in ~/.stubs/typing
-    (if (file-exists-p pkg-dir)
-        (progn
-          (message (concat pkg " directory already exists in ~/.stubs/typings."))
-          (when (yes-or-no-p "Do you want to delete it? ")
-            (delete-directory pkg-dir t)
-            (message (concat pkg " directory deleted."))))
-      (message (concat pkg " directory does not exist in ~/.stubs/typings.")))
-    ;; Step 3: Execute ~/.emacs.d/.cache/lsp/npm/pyright/bin/pyright --createstub [pkg]
-    (shell-command pyright-command)
-    (message (concat "Pyright stub created for " pkg "."))
-    ;; Step 4: Switch back to the original directory
-    (cd current-dir)))
+(defun unicorn/pyright-createstub (pkg)
+  (interactive "sStub package (import name): ")
+  (let* ((root  (expand-file-name "~/.stubs/"))
+         (pyi   (expand-file-name "~/.nvm/versions/node/v21.7.2/bin/pyright"))
+         (name  (string-trim pkg))
+         (tdir  (expand-file-name "typings" root))
+         (dest  (expand-file-name name tdir)))
+    (unless (file-exists-p root) (make-directory root t))
+    (unless (file-exists-p tdir) (make-directory tdir t))
+    (when (and (file-directory-p dest)
+               (yes-or-no-p (format "Stub %s 已存在，删除并重新生成？ " dest)))
+      (delete-directory dest t))
+    (let ((default-directory root))
+      (with-current-buffer (get-buffer-create "*Pyright Stub*") (erase-buffer))
+      (let ((code (call-process pyi nil "*Pyright Stub*" t "--createstub" name)))
+        (if (eq code 0)
+            (message "stub created: %s -> %s/" name dest)
+          (error "pyright failed (%s). See *Pyright Stub*" code))))))
+
+;; (defun unicorn/create-pyright-stub (pkg)
+;;   "Create a Pyright stub for the specified package."
+;;   (interactive "sEnter package name: ")
+;;   (let* ((stubs-dir "~/.stubs")
+;;          (typing-dir (concat stubs-dir "/typings"))
+;;          (pkg-dir (concat typing-dir "/" pkg))
+;;          (pyright-command (concat "/home/linyi/.nvm/versions/node/v21.7.2/bin/pyright --createstub " pkg))
+;;          (current-dir default-directory)) ; Record the current directory
+;;     ;; Step 1: Switch to ~/.stubs directory
+;;     (cd stubs-dir)
+;;     ;; Step 2: Check if [pkg] directory exists in ~/.stubs/typing
+;;     (if (file-exists-p pkg-dir)
+;;         (progn
+;;           (message (concat pkg " directory already exists in ~/.stubs/typings."))
+;;           (when (yes-or-no-p "Do you want to delete it? ")
+;;             (delete-directory pkg-dir t)
+;;             (message (concat pkg " directory deleted."))))
+;;       (message (concat pkg " directory does not exist in ~/.stubs/typings.")))
+;;     ;; Step 3: Execute ~/.emacs.d/.cache/lsp/npm/pyright/bin/pyright --createstub [pkg]
+;;     (shell-command pyright-command)
+;;     (message (concat "Pyright stub created for " pkg "."))
+;;     ;; Step 4: Switch back to the original directory
+;;     (cd current-dir)))
 
 (use-package python
   :ensure nil
@@ -206,6 +225,15 @@ as the pyenv version then also return nil. This works around https://github.com/
             (pyvenv-workon venv-name))
         )))
   :hook ((python-mode python-ts-mode) . pyvenv-autoload))
+
+;; 让 Eglot 的 CAPF 永远排在首位（比 yasnippet-capf 更早）
+(with-eval-after-load 'eglot
+  (add-hook 'eglot-managed-mode-hook
+            (lambda ()
+              (setq-local completion-at-point-functions
+                          (cons #'eglot-completion-at-point
+                                (remove #'eglot-completion-at-point
+                                        completion-at-point-functions))))))
 
 (provide 'init-lsp-python)
 (message "init-python loaded in '%.2f' seconds ..." (get-time-diff time-marked))

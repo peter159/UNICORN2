@@ -125,8 +125,8 @@
           '(orderless)) ;; Configure orderless
     (setq-local completion-at-point-functions
     		(list
-                 #'yasnippet-capf
                  #'eglot-completion-at-point
+                 #'yasnippet-capf
                  #'cape-file
     		 #'cape-dabbrev
                  )))

@@ -153,6 +153,11 @@
   (plist-put (alist-get 'debugpy dape-configs) 'command "python3")
   )
 
+(add-hook 'eglot-managed-mode-hook
+          (lambda ()
+            (when (bound-and-true-p flycheck-mode)
+              (flycheck-mode -1))))
+
 ;; (use-package vue-ts-mode
 ;;   :ensure nil
 ;;   :mode ("\\.vue\\'" . vue-ts-mode)
