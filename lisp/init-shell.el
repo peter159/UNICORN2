@@ -84,5 +84,10 @@
     )
   )
 
+(use-package dotenv-mode
+  :ensure t
+  :mode (("\\.env\\'" . dotenv-mode)
+         ("\\.env\\..*\\'" . dotenv-mode)))
+
 (provide 'init-shell)
 ;;; init-shell.el ends here
