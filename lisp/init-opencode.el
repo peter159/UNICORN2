@@ -247,7 +247,7 @@
       (unless (pl/opencode--wait-ready buf)
         (user-error "Vterm process not ready (timeout %.1fs)" pl/opencode-start-timeout))
       (vterm-send-string text)
-      (vterm-send-return))))
+      )))
 
 (defun pl/opencode-send-buffer ()
   "Send whole buffer to OpenCode vterm."
