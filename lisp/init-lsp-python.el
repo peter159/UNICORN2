@@ -99,6 +99,7 @@ as the pyenv version then also return nil. This works around https://github.com/
 (defun unicorn/pyright-setup-project-config()
   "setup config env for project root"
   (interactive)
+  (shell-command "cp -r ~/.emacs.d/config_snippets/python/.opencode .")
   (shell-command "cp ~/.emacs.d/config_snippets/python/pyrightconfig.json .")
   (shell-command "touch .projectile")
   ;; (shell-command "touch .env")
