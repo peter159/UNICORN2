@@ -69,9 +69,46 @@
   (evil-define-key 'insert vterm-mode-map (kbd "C-e") 'vterm-send-C-e)
   (evil-define-key 'insert vterm-mode-map (kbd "C-k") 'vterm-send-C-k)
   (evil-define-key 'insert vterm-mode-map (kbd "C-d") 'vterm-send-C-d)
+  ;; 新增：在 vterm 中发送“真实 ESC”（用于退出 Claude /status 等 TUI）
+  ;; (evil-define-key 'insert vterm-mode-map (kbd "C-c C-c") #'vterm-send-escape)
   (add-hook 'vterm-mode-hook (lambda()
 			       (set-process-sentinel (get-buffer-process (buffer-name))
 						     #'vterm--kill-vterm-buffer-and-window))))
+(with-eval-after-load 'vterm
+  (with-eval-after-load 'evil
+    (defvar-local vterm-evil--esc-timer nil)
+    (defvar-local vterm-evil--esc-primed nil)
+    (defun vterm-evil--esc-reset ()
+      (setq vterm-evil--esc-primed nil)
+      (when (timerp vterm-evil--esc-timer)
+        (cancel-timer vterm-evil--esc-timer))
+      (setq vterm-evil--esc-timer nil))
+    (defun vterm-evil--esc-primed-p ()
+      (when vterm-evil--esc-primed
+        (vterm-evil--esc-reset)
+        t))
+    (defun vterm-evil--esc-prime (&optional secs)
+      (setq vterm-evil--esc-primed t)
+      (when (timerp vterm-evil--esc-timer)
+        (cancel-timer vterm-evil--esc-timer))
+      (setq vterm-evil--esc-timer
+            (run-with-timer (or secs 0.25) nil #'vterm-evil--esc-reset)))
+    (defun vterm-evil-esc ()
+      (interactive)
+      (vterm-send-escape)
+      (if (vterm-evil--esc-primed-p)
+          (evil-normal-state)
+        (vterm-evil--esc-prime)))
+    (defun vterm-evil-esc-normal ()
+      (interactive)
+      (if (vterm-evil--esc-primed-p)
+          (evil-emacs-state)
+        (vterm-evil--esc-prime)))
+    (add-hook 'vterm-mode-hook (lambda () (evil-emacs-state)))
+    (evil-define-key 'emacs  vterm-mode-map (kbd "<escape>") #'vterm-evil-esc)
+    (evil-define-key 'insert vterm-mode-map (kbd "<escape>") #'vterm-evil-esc)
+    (evil-define-key 'normal vterm-mode-map (kbd "<escape>") #'vterm-evil-esc-normal)))
+
 (use-package multi-vterm
   :ensure t)
 
@@ -88,6 +125,20 @@
   :ensure t
   :mode (("\\.env\\'" . dotenv-mode)
          ("\\.env\\..*\\'" . dotenv-mode)))
+
+;; 在 WSL 中强制使用 Windows Chrome
+(when (and (eq system-type 'gnu/linux)
+           (getenv "WSL_DISTRO_NAME"))
+  (setq browse-url-browser-function
+        (lambda (url &optional _new-window)
+          (start-process
+           "windows-chrome"
+           nil
+           "cmd.exe"
+           "/c"
+           "start"
+           "chrome"
+           url))))
 
 (provide 'init-shell)
 ;;; init-shell.el ends here

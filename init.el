@@ -110,6 +110,8 @@
 (require 'init-sql)
 
 (require 'init-shell)
+(require 'init-claude)
+(require 'init-opencode)
 (require 'init-misc)
 
 (require 'leader-core-functions)

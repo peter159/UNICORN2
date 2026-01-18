@@ -244,13 +244,25 @@
 ;; leader-o family
 (which-key-add-key-based-replacements
   (format "%s o" unicorn-evil-leader-key) "yours")
+(which-key-add-key-based-replacements
+  (format "%s oc" unicorn-evil-leader-key) "opencode")
 (evil-leader/set-key
   "ow"  'whitespace-cleanup
   "obs" 'bookmark-set
   "obd" 'bookmark-delete
   "obr" 'bookmark-rename
   "obl" 'bookmark-bmenu-list
-  "oh" 'browse-url)
+  "oh" 'browse-url
+
+  "ocm" 'pl/opencode-menu
+  "oco" 'pl/opencode-open
+  "ocf" 'pl/opencode-focus
+  "ocP" 'pl/opencode-paste-system-prompt
+  "ocr" 'pl/opencode-send-region
+  "ocb" 'pl/opencode-send-buffer
+  "ocs" 'pl/opencode-auth-status
+  "ocR" 'pl/opencode-reset-session
+  "ock" 'pl/opencode-kill)
 
 ;;;; major mode specific keybinding
 (which-key-add-key-based-replacements
